@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    <!-- navigation menu-->
+    <ul>
+        <li><a href="{{ url_for('index') }}">Index</a></li>
+        <li><a href="{{ url_for('auctioneer') }}">Auctioneer</a></li>
+        <li><a href="{{ url_for('bidder') }}">Bidders</a></li>
+        <li><a href="{{ url_for('item_page') }}">Item Page</a></li>
+        <li><a href="{{ url_for('items_index') }}">Index of Items</a></li>
+
+
+        <li><a href="{{ url_for('login') }}">Login</a></li>
+        <li><a href="{{ url_for('register') }}">Create Bidding Account</a></li>
+
+    </ul>
+
+    <h1>{% block heading %}{% endblock %}</h1>
+    <p>{% block content %}{% endblock %}</p>
+</body>
+</html>

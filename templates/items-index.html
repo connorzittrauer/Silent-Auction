@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Items{% endblock %}
+{% block heading %}{% endblock %}
+
+
+{% block content %}
+    <ul>
+        <!-- iterate through database items and print -->
+        {% for product in data %}
+            <li>{{ product.item_name }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
