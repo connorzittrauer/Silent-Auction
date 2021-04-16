@@ -7,8 +7,8 @@
 {% block content %}
     <ul>
         <!-- iterate through database items and print -->
-        {% for product in data %}
-            <li>{{ product.item_name }}</li>
+        {% for addresses in data %}
+        <li><a href="{{ url_for('item_page', item_id=addresses.item_id) }}" >{{ addresses.item_name }}</a></li>
         {% endfor %}
     </ul>
 {% endblock %}

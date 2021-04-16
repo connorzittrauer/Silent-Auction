@@ -1,20 +1,17 @@
 from flask import Flask, render_template, Blueprint
+from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from models import db, Items, Bidder, login_manager
-
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from forms import LoginForm, RegistrationForm
-
 import os
 
 app = Flask(__name__)
-
-
+boostrap = Bootstrap(app)
 
 #Set the login manager's login view to login route function
 login_manager.login_view = 'app.login'
-
 
 
 #set up useful variables
@@ -35,16 +32,16 @@ db = SQLAlchemy(app)
 def index():
     return render_template("index.html")
 
-@app.route("/item-page")
-def item_page():
-
-    return render_template("item-page.html")
-
 @app.route("/items-index")
 def items_index():
     # query the database for a list of the addresses
     data = Items.query.all()
     return render_template("items-index.html", data=data)
+
+@app.route('/items-index/<item_id>')
+def item_page(item_id):
+    data = Items.query.get(int(item_id))
+    return render_template('item-page.html', data=data)
 
 @app.route("/bidder")
 def bidder():
