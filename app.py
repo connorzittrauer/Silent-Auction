@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 
 
-#MISSING: Set the login manager's login view to login route function
+#Set the login manager's login view to login route function
 login_manager.login_view = 'app.login'
 
 
