@@ -1,10 +1,10 @@
 from flask import Flask, render_template, Blueprint
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
-from models import db, Items, Bidder, login_manager
+from models import db, Items, Bidder, Auctioneer, login_manager
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
-from forms import LoginForm, RegistrationForm
+from forms import LoginForm, RegistrationForm, NewAuctionItem
 import os
 
 app = Flask(__name__)
@@ -47,9 +47,22 @@ def item_page(item_id):
 def bidder():
     return render_template("bidder.html")
 
-@app.route("/auctioneer")
+
+
+
+
+@app.route("/auctioneer", methods=['GET', 'POST'])
 def auctioneer():
-    return render_template("auctioneer.html")
+    form = NewAuctionItem()
+    if form.validate_on_submit():
+        item = Items(item_name=form.address.data)
+        db.session.add(item)
+        db.session.commit()
+        flash('Auctioneer Item Created.')
+    return render_template("auctioneer.html", form=form)
+
+
+
 
 @app.route("/admin")
 def admin():

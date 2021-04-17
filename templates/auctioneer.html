@@ -2,6 +2,11 @@
 
 {% block title %}Auctioneer{% endblock %}
 {% block heading %}{% endblock %}
-
 {% block content %}
+    <p>Auction a Home: </p>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    {{ form.address.label }} {{form.address}}
+    {{ form.submit }}
+</form>
 {% endblock %}

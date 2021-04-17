@@ -33,3 +33,7 @@ class RegistrationForm(FlaskForm):
     def validate_username(self, field):
         if Bidder.query.filter_by(username=field.data).first():
             raise ValidationError('Username already in use.')
+
+class NewAuctionItem(FlaskForm):
+    address = StringField("Home: ", validators=[DataRequired()])
+    submit = SubmitField("Post Listing")
