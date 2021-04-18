@@ -5,12 +5,13 @@
 
 {% block content %}
 <p>Bids: </p>
+<p>{{ data.item_price }}</p>
 <form method="POST">
     {{ form.hidden_tag() }}
     {{ form.bid.label }} {{form.bid}}
     {{ form.submit }}
 </form>
 
-<p>{{ data.item_price }}</p>
+
 
 {% endblock %}

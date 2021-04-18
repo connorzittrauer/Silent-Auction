@@ -1,3 +1,4 @@
+import flask
 from flask import Flask, render_template, Blueprint
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
@@ -38,14 +39,17 @@ def items_index():
     data = Items.query.all()
     return render_template("items-index.html", data=data)
 
+
+#not updating database record!
 @app.route('/items-index/<item_id>', methods=['GET', 'POST'])
 def item_page(item_id):
     data = Items.query.get(int(item_id))
     form = NewBid()
-    if form.validate_on_submit():
+    if form.validate_on_submit() and flask.request.method == 'POST':
         data.item_price = form.bid.data
         db.session.commit()
-        flash('Bid Received!.')
+        flash('Bid Received!')
+        # return redirect(url_for("items_index"))
     return render_template('item-page.html',form=form, data=data)
 
 @app.route("/bidder")
@@ -62,8 +66,6 @@ def auctioneer():
         flash('Auctioneer Item Created.')
         return redirect(url_for("auctioneer"))
     return render_template("auctioneer.html", form=form)
-
-
 
 
 @app.route("/admin")
