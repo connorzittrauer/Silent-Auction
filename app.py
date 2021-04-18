@@ -43,14 +43,17 @@ def items_index():
 #not updating database record!
 @app.route('/items-index/<item_id>', methods=['GET', 'POST'])
 def item_page(item_id):
-    data = Items.query.get(int(item_id))
     form = NewBid()
+    data = Items.query.get(int(item_id))
     if form.validate_on_submit() and flask.request.method == 'POST':
         data.item_price = form.bid.data
         db.session.commit()
         flash('Bid Received!')
         # return redirect(url_for("items_index"))
     return render_template('item-page.html',form=form, data=data)
+
+
+
 
 @app.route("/bidder")
 def bidder():
