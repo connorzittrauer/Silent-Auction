@@ -20,7 +20,7 @@ bids = db.Table('bids',
 class Items(db.Model):
     item_id = db.Column(db.Integer, primary_key=True)
     item_name = db.Column(db.String(64), unique=True, nullable=False)
-
+    item_price = db.Column(db.String(64), unique=True)
 
 #many-to-many relationship, bidders can have multiple items
 class Bidder(db.Model):

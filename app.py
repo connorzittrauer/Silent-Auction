@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from models import db, Items, Bidder, Auctioneer, login_manager
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
-from forms import LoginForm, RegistrationForm, NewAuctionItem
+from forms import LoginForm, RegistrationForm, NewAuctionItem, NewBid
 import os
 
 app = Flask(__name__)
@@ -38,18 +38,19 @@ def items_index():
     data = Items.query.all()
     return render_template("items-index.html", data=data)
 
-@app.route('/items-index/<item_id>')
+@app.route('/items-index/<item_id>', methods=['GET', 'POST'])
 def item_page(item_id):
     data = Items.query.get(int(item_id))
-    return render_template('item-page.html', data=data)
+    form = NewBid()
+    if form.validate_on_submit():
+        data.item_price = form.bid.data
+        db.session.commit()
+        flash('Bid Received!.')
+    return render_template('item-page.html',form=form, data=data)
 
 @app.route("/bidder")
 def bidder():
     return render_template("bidder.html")
-
-
-
-
 
 @app.route("/auctioneer", methods=['GET', 'POST'])
 def auctioneer():
@@ -59,6 +60,7 @@ def auctioneer():
         db.session.add(item)
         db.session.commit()
         flash('Auctioneer Item Created.')
+        return redirect(url_for("auctioneer"))
     return render_template("auctioneer.html", form=form)
 
 

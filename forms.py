@@ -37,3 +37,7 @@ class RegistrationForm(FlaskForm):
 class NewAuctionItem(FlaskForm):
     address = StringField("Home: ", validators=[DataRequired()])
     submit = SubmitField("Post Listing")
+
+class NewBid(FlaskForm):
+    bid = StringField("Enter a bid: ", validators=[DataRequired()])
+    submit = SubmitField("Place")
