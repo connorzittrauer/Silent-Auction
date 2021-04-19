@@ -60,7 +60,7 @@ def bidder():
 @app.route("/auctioneer", methods=['GET', 'POST'])
 def auctioneer():
     form = NewAuctionItem()
-    if form.validate_on_submit():
+    if form.validate_on_submit() and current_user.has_role("Auctioneer"):
         item = Items(item_name=form.address.data)
         db.session.add(item)
         db.session.commit()
@@ -122,6 +122,7 @@ def register():
         flash('You can now login')
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
+
 
 
 if __name__ == '__main__':

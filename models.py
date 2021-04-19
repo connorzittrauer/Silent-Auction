@@ -46,6 +46,6 @@ class User(db.Model):
 
     # configure the login manager so it knows how to identify a user
     @login_manager.user_loader
-    def load_user(bidder_id):
-        return User.query.get(int(bidder_id))
+    def load_user(user_id):
+        return User.query.get(int(user_id))
 
