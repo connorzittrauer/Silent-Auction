@@ -26,8 +26,7 @@ app.config['SECRET_KEY'] = 'SDF#$DSFLKSDFJG$#LKJDFS$%LKJS'
 #after the app object was created and configured
 db.init_app(app)
 
-#$initialize extensions
-db = SQLAlchemy(app)
+
 
 @app.route("/")
 def index():
