@@ -45,8 +45,9 @@ def items_index():
 def item_page(item_id):
     form = NewBid()
     data = Items.query.get(int(item_id))
-    if form.validate_on_submit() and flask.request.method == 'POST':
+    if form.validate_on_submit():
         data.item_price = form.bid.data
+        db.session.add(data)
         db.session.commit()
         flash('Bid Received!')
         # return redirect(url_for("items_index"))
