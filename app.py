@@ -2,7 +2,7 @@ import flask
 from flask import Flask, render_template, Blueprint
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
-from models import db, Items, Bidder, Auctioneer, login_manager
+from models import db, Items, User, login_manager
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from forms import LoginForm, RegistrationForm, NewAuctionItem, NewBid
@@ -25,8 +25,6 @@ app.config['SECRET_KEY'] = 'SDF#$DSFLKSDFJG$#LKJDFS$%LKJS'
 
 #after the app object was created and configured
 db.init_app(app)
-
-
 
 @app.route("/")
 def index():
@@ -86,10 +84,10 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         #create a user variable set with a query of the first item that matches the provided email
-        bidder = Bidder.query.filter_by(email=form.email.data.lower()).first()
-        if bidder is not None and bidder.verify_password(form.password.data):
+        user=User.query.filter_by(username=form.username.data.lower()).first()
+        if user is not None and user.verify_password(form.password.data):
             #using the login_user function with the user and remember me data
-            login_user(bidder, form.remember_me.data)
+            login_user(user, form.remember_me.data)
             next = request.args.get('next')
             if next is None or not next.startswith('/'):
                 next = url_for('main.index')
@@ -115,7 +113,7 @@ def register():
     if form.validate_on_submit():
         print("after validation")
         #create a new user from the Form fields
-        user = Bidder(email=form.email.data.lower(),
+        user = User(role=dict(form.user_type.choices).get(form.user_type.data),
                     username=form.username.data,
                     password=form.password.data)
         db.session.add(user)

@@ -6,7 +6,7 @@
 <h1>Please Register:</h1>
 <form method="POST">
     {{ form.hidden_tag() }}
-    {{ form.email.label }} {{form.email}}
+    {{ form.user_type() }}
     {{ form.username.label }} {{form.username}}
     {{ form.password.label }} {{ form.password }}
     {{ form.password2.label }} {{ form.password2 }}
