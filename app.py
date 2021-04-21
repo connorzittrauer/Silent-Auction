@@ -3,7 +3,7 @@ from flask import Flask, render_template, Blueprint, flash
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from models import db, Items, User
+from models import db, Items, User, bids
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from forms import LoginForm, RegistrationForm, NewAuctionItem, NewBid
@@ -49,13 +49,16 @@ def items_index():
     return render_template("items-index.html", data=data)
 
 
-# not updating database record!
+
 @app.route('/items-index/<item_id>', methods=['GET', 'POST'])
 def item_page(item_id):
     form = NewBid()
     data = Items.query.get(int(item_id))
     if form.validate_on_submit():
         data.item_price = form.bid.data
+
+        data.bids.append(current_user)
+
         db.session.add(data)
         db.session.commit()
         flash('Bid Received!')
@@ -82,7 +85,18 @@ def auctioneer():
 
 @app.route("/admin")
 def admin():
-    return render_template("admin.html")
+    data = User.query.all()
+    return render_template("admin.html", data=data)
+
+@app.route("/admin/<username>", methods=['GET', 'POST'])
+def user_index(username):
+    data = User.query.get(username)
+    return render_template('user-index.html', data=data)
+
+
+
+
+
 
 
 @app.route("/new-bidder")

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}User Configuration{% endblock %}
+{% block heading %}{% endblock %}
+
+
+{% block content %}
+<ul>
+    {% for user in data %}
+        <li>{{ user.username }}<ul>
+    {% endfor %}
+</ul>
+{% endblock %}

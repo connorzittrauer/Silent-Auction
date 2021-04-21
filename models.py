@@ -5,8 +5,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
 
-
-
 #association table
 bids = db.Table('bids',
         db.Column('item_id', db.Integer, db.ForeignKey('items.item_id')),
@@ -21,7 +19,7 @@ class Items(db.Model):
 class User(UserMixin, db.Model):
     role = db.Column(db.String(32), nullable=False)
     user_id = db.Column(db.Integer, primary_key=True)
-    items = db.relationship('Items', secondary=bids, backref=db.backref('user'))
+    offers = db.relationship('Items', secondary=bids, backref=db.backref('bids', lazy='dynamic'))
     username = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
 
@@ -49,5 +47,7 @@ class User(UserMixin, db.Model):
     def get_id(self):
         return int(self.user_id)
 
+    def get_username(self):
+        return str(self.username)
 
 
