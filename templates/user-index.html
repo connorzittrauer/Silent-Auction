@@ -5,7 +5,32 @@
 
 
 {% block content %}
+<table>
+<thead>
+  <tr>
+    <th><h4>Username</h4></th>
+    <th><h4>User Type</h4></th>
+    <th><h4>User ID</h4></th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>{{ data.username }}</td>
+    <td>{{ data.role }}</td>
+    <td>{{ data.user_id }}</td>
+  </tr>
+</tbody>
+</table>
 
-<p>{{ data.username }}</p>
 
+
+<h1>Update User Credentials:</h1>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    {{ form.role() }}
+    {{ form.username.label }} {{form.username}}
+    {{ form.password.label }} {{ form.password }}
+    {{ form.password2.label }} {{ form.password2 }}
+    {{ form.submit }}
+</form>
 {% endblock %}

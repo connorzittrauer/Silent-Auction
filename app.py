@@ -6,7 +6,7 @@ from flask_login import LoginManager
 from models import db, Items, User, bids
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
-from forms import LoginForm, RegistrationForm, NewAuctionItem, NewBid
+from forms import LoginForm, RegistrationForm, NewAuctionItem, NewBid, UpdateUser
 import os
 
 app = Flask(__name__)
@@ -56,9 +56,7 @@ def item_page(item_id):
     data = Items.query.get(int(item_id))
     if form.validate_on_submit():
         data.item_price = form.bid.data
-
         data.bids.append(current_user)
-
         db.session.add(data)
         db.session.commit()
         flash('Bid Received!')
@@ -92,7 +90,15 @@ def admin():
 def user_index(username, user_id):
     username = User.query.get(username)
     data = User.query.get(int(user_id))
-    return render_template('user-index.html', data=data)
+    form = UpdateUser()
+    if form.validate_on_submit():
+        data.role = form.role.data
+        data.username = form.username.data
+        data.password = form.password.data
+        db.session.add(data)
+        db.session.commit()
+        flash("User updated")
+    return render_template('user-index.html', form=form, data=data)
 
 
 
