@@ -1,6 +1,6 @@
-
+from apt.auth import unicode
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
+from flask_login import LoginManager, UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
@@ -20,7 +20,7 @@ class Items(db.Model):
     item_price = db.Column(db.String(64), unique=True)
 
 #many-to-many relationship, bidders/auctioneers can have multiple items
-class User(db.Model):
+class User(UserMixin, db.Model):
     role = db.Column(db.String(32), nullable=False)
     user_id = db.Column(db.Integer, primary_key=True)
     items = db.relationship('Items', secondary=bids, backref=db.backref('user'))
@@ -39,17 +39,17 @@ class User(db.Model):
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-    def is_authenticated(self):
-        return True
-    # not really sure what this does but it prevents an error
-    def is_active(self):
-        return True
-
-    def is_anonymous(self):
-        return False
-
-    def get_id(self):
-        return int(self.user_id)
+    # def is_authenticated(self):
+    #     return True
+    # # not really sure what this does but it prevents an error
+    # def is_active(self):
+    #     return True
+    #
+    # def is_anonymous(self):
+    #     return False
+    #
+    # def get_id(self):
+    #     return int(self.user_id)
 
 
 
