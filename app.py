@@ -7,6 +7,7 @@ from models import db, Items, User, bids
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from forms import LoginForm, RegistrationForm, NewAuctionItem, NewBid, UpdateUser
+
 import os
 
 app = Flask(__name__)
@@ -81,10 +82,22 @@ def auctioneer():
     return render_template("auctioneer.html", form=form)
 
 
-@app.route("/admin")
+@app.route("/admin", methods=['GET', 'POST'])
 def admin():
     data = User.query.all()
-    return render_template("admin.html", data=data)
+    form = RegistrationForm()
+    print("before validation")
+    if form.validate_on_submit():
+        print("after validation")
+        # create a new user from the Form fields
+        user = User(role=dict(form.user_type.choices).get(form.user_type.data),
+                    username=form.username.data,
+                    password=form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash('Account Created.')
+        return redirect(url_for('admin'))
+    return render_template("admin.html", data=data, form=form)
 
 @app.route("/admin/<username>" + "<user_id>", methods=['GET', 'POST'])
 def user_index(username, user_id):

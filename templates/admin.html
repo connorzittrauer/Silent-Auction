@@ -4,10 +4,21 @@
 {% block heading %}{% endblock %}
 
 {% block content %}
-<p>Current Users:</p>
+<p>Edit Users:</p>
 <ul>
     {% for users in data %}
     <li><a href="{{ url_for('user_index', username=users.username, user_id=users.user_id) }}" >{{ users.username }}</a></li>
     {% endfor %}
 </ul>
+<br />
+
+<p>Create a New User:</p>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    {{ form.user_type() }}
+    {{ form.username.label }} {{form.username}}
+    {{ form.password.label }} {{ form.password }}
+    {{ form.password2.label }} {{ form.password2 }}
+    {{ form.submit }}
+</form>
     {% endblock %}
