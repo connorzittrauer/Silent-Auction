@@ -102,10 +102,16 @@ def login():
             login_user(user, form.remember_me.data)
             next = request.args.get('next')
             if next is None or not next.startswith('/'):
-                next = url_for('index')
-            return redirect(next)
-        flash('Invalid email or password.')
-        flash('Invalid email or password.')
+                if current_user.role == "Bidder":
+                    next = url_for('items_index')
+                    return redirect(next)
+                elif current_user.role == 'Auctioneer':
+                    next = url_for('auctioneer')
+                    return redirect(next)
+                else:
+                    next = url_for('admin')
+                    return redirect(next)
+        flash('Invalid username or password.')
     return render_template('login.html', form=form)
 
 

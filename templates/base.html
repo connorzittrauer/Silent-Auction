@@ -7,12 +7,16 @@
 <body>
     <!-- navigation menu-->
     <ul>
+        {% if current_user.role == 'Admin' %}
+            <li><a href="{{ url_for('admin') }}">Admin</a></li>
+        {% endif %}
         <li><a href="{{ url_for('index') }}">Home</a></li>
         <li><a href="{{ url_for('auctioneer') }}">Auctioneer</a></li>
         <li><a href="{{ url_for('bidder') }}">Bidders</a></li>
         <li><a href="{{ url_for('items_index') }}">Homes On Auction</a></li>
         <li><a href="{{ url_for('login') }}">Login</a></li>
         <li><a href="{{ url_for('register') }}">Create Bidding Account</a></li>
+
 
     </ul>
 

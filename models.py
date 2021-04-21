@@ -6,8 +6,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 db = SQLAlchemy()
 
 
-# #Set the login manager's login view to login route function
-# login_manager.login_view = 'app.login'
 
 #association table
 bids = db.Table('bids',
@@ -39,17 +37,17 @@ class User(UserMixin, db.Model):
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-    # def is_authenticated(self):
-    #     return True
-    # # not really sure what this does but it prevents an error
-    # def is_active(self):
-    #     return True
-    #
-    # def is_anonymous(self):
-    #     return False
-    #
-    # def get_id(self):
-    #     return int(self.user_id)
+    def is_authenticated(self):
+        return True
+    # not really sure what this does but it prevents an error
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return int(self.user_id)
 
 
 
