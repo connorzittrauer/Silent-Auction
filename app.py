@@ -88,9 +88,10 @@ def admin():
     data = User.query.all()
     return render_template("admin.html", data=data)
 
-@app.route("/admin/<username>", methods=['GET', 'POST'])
-def user_index(username):
-    data = User.query.get(username)
+@app.route("/admin/<username>" + "<user_id>", methods=['GET', 'POST'])
+def user_index(username, user_id):
+    username = User.query.get(username)
+    data = User.query.get(int(user_id))
     return render_template('user-index.html', data=data)
 
 

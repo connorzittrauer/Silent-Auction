@@ -7,7 +7,7 @@
 <p>Current Users:</p>
 <ul>
     {% for users in data %}
-    <li><a href="{{ url_for('user_index', username=users.username) }}" >{{ users.username }}</a></li>
+    <li><a href="{{ url_for('user_index', username=users.username, user_id=users.user_id) }}" >{{ users.username }}</a></li>
     {% endfor %}
 </ul>
     {% endblock %}
