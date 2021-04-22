@@ -82,6 +82,8 @@ def auctioneer():
     return render_template("auctioneer.html", form=form)
 
 
+
+
 @app.route("/admin", methods=['GET', 'POST'])
 def admin():
     data = User.query.all()
@@ -156,7 +158,7 @@ def logout():
     # using the logout_user method to log out the user
     logout_user()
     flash('You have been logged out.')
-    return redirect(url_for('main.index'))
+    return redirect(url_for('index'))
 
 
 # set up the registration view and registration logic
