@@ -6,20 +6,23 @@ from werkzeug.security import generate_password_hash, check_password_hash
 db = SQLAlchemy()
 
 #association table
-bids = db.Table('bids',
-        db.Column('item_id', db.Integer, db.ForeignKey('items.item_id')),
-        db.Column('user_id', db.Integer, db.ForeignKey('user.user_id')))
+class Bids(db.Model):
+        bid_id = db.Column(db.Integer, primary_key=True)
+        item_id = db.Column('item_id', db.Integer, db.ForeignKey('items.item_id'), nullable=False)
+        user_id = db.Column('user_id', db.Integer, db.ForeignKey('user.user_id'), nullable=False)
+        bid_price = db.Column('current_price', db.String, db.ForeignKey('items.item_price'))
 
 class Items(db.Model):
     item_id = db.Column(db.Integer, primary_key=True)
     item_name = db.Column(db.String(64), unique=True, nullable=False)
     item_price = db.Column(db.String(64), unique=True)
+    auctioneer_id = db.Column('auctioneer_id', db.Integer, db.ForeignKey('user.user_id'), nullable=False)
 
 #many-to-many relationship, bidders/auctioneers can have multiple items
 class User(UserMixin, db.Model):
     role = db.Column(db.String(32), nullable=False)
     user_id = db.Column(db.Integer, primary_key=True)
-    offers = db.relationship('Items', secondary=bids, backref=db.backref('bids', lazy='dynamic'))
+    offers = db.relationship('Items', secondary='bids',backref=db.backref('bidders', lazy='dynamic'))
     username = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
 

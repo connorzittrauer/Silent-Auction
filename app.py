@@ -3,7 +3,7 @@ from flask import Flask, render_template, Blueprint, flash
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from models import db, Items, User, bids
+from models import db, Items, User, Bids
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from forms import LoginForm, RegistrationForm, NewAuctionItem, NewBid, UpdateUser
@@ -57,7 +57,7 @@ def item_page(item_id):
     data = Items.query.get(int(item_id))
     if form.validate_on_submit():
         data.item_price = form.bid.data
-        data.bids.append(current_user)
+        data.bidders.append(current_user)
         db.session.add(data)
         db.session.commit()
         flash('Bid Received!')
