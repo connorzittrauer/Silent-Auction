@@ -73,13 +73,15 @@ def bidder():
 @app.route("/auctioneer", methods=['GET', 'POST'])
 def auctioneer():
     form = NewAuctionItem()
+    data = Items.query.filter_by(auctioneer_id=current_user.user_id)
     if form.validate_on_submit() and current_user.role == 'Auctioneer':
-        item = Items(item_name=form.address.data)
+        item = Items(item_name=form.address.data,
+                     auctioneer_id= current_user.user_id)
         db.session.add(item)
         db.session.commit()
         flash('Auctioneer Item Created.')
         return redirect(url_for("auctioneer"))
-    return render_template("auctioneer.html", form=form)
+    return render_template("auctioneer.html", form=form, data=data)
 
 
 @app.route("/admin", methods=['GET', 'POST'])

@@ -10,5 +10,10 @@
     {{ form.submit }}
 </form>
 
-
+<h4>Your listings:</h4>
+<ul>
+    {% for addresses in data %}
+        <li>{{ addresses.item_name }}</li>
+    {% endfor %}
+</ul>
 {% endblock %}
