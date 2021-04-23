@@ -68,7 +68,8 @@ def item_page(item_id):
 
 @app.route("/bidder")
 def bidder():
-    return render_template("bidder.html")
+    data = Bids.query.filter_by(user_id=current_user.user_id)
+    return render_template("bidder.html", data=data)
 
 
 @app.route("/auctioneer", methods=['GET', 'POST'])

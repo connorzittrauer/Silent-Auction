@@ -1,7 +1,15 @@
 {% extends "base.html" %}
 
-{% block title %}Bidder{% endblock %}
+{% block title %}Bidder Info{% endblock %}
 {% block heading %}{% endblock %}
 
 {% block content %}
+<h4>Your active bids:</h4>
+<ul>
+    {% for addresses in data %}
+        <li>{{ addresses.item_id.item_name }}</li>
+    {% endfor %}
+</ul>
+
+
 {% endblock %}

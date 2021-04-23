@@ -36,12 +36,11 @@ class NewBid(FlaskForm):
     bid = StringField("Enter a bid: ", validators=[DataRequired()])
     submit = SubmitField("Place")
 
-    def validate_bid(form, field):
-        bid = int(field.data)
-        bid_index = [0, bid]
-        bid_index.append(bid)
-        if not bid_index[] > bid_index[count - 1]:
-            raise ValidationError('Bid must be higher than the previous bid')
+    # def validate_bid(form, field):
+    #     bid = int(field.data)
+    #     bid_index = [0, bid]
+    #     if not bid > bid_index.index[bid - 1]:
+    #         raise ValidationError('Bid must be higher than the previous bid')
 
 class UpdateUser(FlaskForm):
     role = SelectField('types', choices=[('Bidder', 'Bidder'), ('Auctioneer', 'Auctioneer')])
