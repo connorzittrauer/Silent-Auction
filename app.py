@@ -6,7 +6,7 @@ from flask_login import LoginManager
 from models import db, Items, User, Bids
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
-from forms import LoginForm, RegistrationForm, NewAuctionItem, NewBid, UpdateUser
+from forms import LoginForm, RegistrationForm, NewAuctionItem, NewBid, UpdateUser, Logout
 from random import randint
 import os
 
@@ -74,7 +74,7 @@ def bidder():
 def auctioneer():
     form = NewAuctionItem()
     data = Items.query.filter_by(auctioneer_id=current_user.user_id)
-    if form.validate_on_submit() and current_user.role == 'Auctioneer':
+    if form.validate_on_submit() and current_user.role != 'Bidder':
         item = Items(item_name=form.address.data,
                      auctioneer_id= current_user.user_id)
         db.session.add(item)
@@ -148,13 +148,15 @@ def login():
 
 
 # set up the logout view and logic
-@app.route('/logout')
-@login_required
+@app.route('/logout', methods=['GET', 'POST'])
 def logout():
     # using the logout_user method to log out the user
-    logout_user()
-    flash('You have been logged out.')
-    return redirect(url_for('index'))
+    form = Logout()
+    if request.method == 'POST':
+        logout_user()
+        flash('You have been logged out.')
+        return redirect(url_for('index'))
+    return render_template('logout.html', form=form)
 
 
 # set up the registration view and registration logic

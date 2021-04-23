@@ -52,3 +52,6 @@ class UpdateUser(FlaskForm):
         if User.query.filter_by(username=field.data).first():
             raise ValidationError('Username already in use.')
 
+
+class Logout(FlaskForm):
+    logout = SubmitField('Logout')
