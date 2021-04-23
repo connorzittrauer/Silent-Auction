@@ -7,6 +7,8 @@
 <body>
     <!-- navigation menu-->
     <ul>
+
+        <li><a href="{{ url_for('login') }}">Login</a></li>
         {% if current_user.role == 'Admin' %}
             <li><a href="{{ url_for('admin') }}">Admin</a></li>
         {% endif %}
@@ -21,6 +23,7 @@
         <li><a href="{{ url_for('login') }}">Login</a></li>
         <li><a href="{{ url_for('register') }}">Create Bidding Account</a></li>
         <li><a href="{{ url_for('logout') }}">Logout</a></li>
+
 
     </ul>
 

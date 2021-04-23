@@ -62,6 +62,7 @@ def item_page(item_id):
         db.session.commit()
         flash('Bid Received!')
         return redirect(url_for("item_page", item_id=item_id))
+    flash("Bid not received")
     return render_template('item-page.html', form=form, data=data)
 
 
