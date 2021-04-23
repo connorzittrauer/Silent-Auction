@@ -16,5 +16,9 @@ populate()
 
 def admin():
     admin = User(role="Admin", username='admin',password="admin")
+    bidder = User(role='Bidder', username='bidder', password='pass')
+    auctioneer = User(role="Auctioneer", username='auct', password='pass')
     db.session.add(admin)
+    db.session.add(bidder)
+    db.session.add(auctioneer)
     db.session.commit()

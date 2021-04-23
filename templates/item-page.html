@@ -4,8 +4,15 @@
 {% block title %}Item Page{% endblock %}
 
 {% block content %}
-<p>Bids: </p>
-<p>{{ data.item_price }}</p>
+<p>Bids:</p>
+<ul>
+    {% for info in data %}
+        <li>{{ info.bid_id }}</li>
+        <li>{{ info.user_id }}</li>
+        <li>{{ info.bid_price }}</li>
+    {% endfor %}
+</ul>
+
 <form method="POST">
     {{ form.hidden_tag() }}
     {{ form.bid.label }} {{form.bid}}

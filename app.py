@@ -7,7 +7,7 @@ from models import db, Items, User, Bids
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from forms import LoginForm, RegistrationForm, NewAuctionItem, NewBid, UpdateUser
-
+from random import randint
 import os
 
 app = Flask(__name__)
@@ -50,18 +50,18 @@ def items_index():
     return render_template("items-index.html", data=data)
 
 
-
 @app.route('/items-index/<item_id>', methods=['GET', 'POST'])
 def item_page(item_id):
     form = NewBid()
-    data = Items.query.get(int(item_id))
+    id = randint(100000, 999999)
+    item = Items.query.get(int(item_id))
+    data = Bids.query.filter_by(item_id=item_id)
     if form.validate_on_submit():
-        data.item_price = form.bid.data
-        data.bidders.append(current_user)
-        db.session.add(data)
+        bid = Bids(bid_id=id, item_id=item_id, user_id=current_user.user_id, bid_price=form.bid.data)
+        db.session.add(bid)
         db.session.commit()
         flash('Bid Received!')
-        # return redirect(url_for("items_index"))
+        return redirect(url_for("item_page", item_id=item_id))
     return render_template('item-page.html', form=form, data=data)
 
 
@@ -82,8 +82,6 @@ def auctioneer():
     return render_template("auctioneer.html", form=form)
 
 
-
-
 @app.route("/admin", methods=['GET', 'POST'])
 def admin():
     data = User.query.all()
@@ -101,6 +99,7 @@ def admin():
         return redirect(url_for('admin'))
     return render_template("admin.html", data=data, form=form)
 
+
 @app.route("/admin/<username>" + "<user_id>", methods=['GET', 'POST'])
 def user_index(username, user_id):
     username = User.query.get(username)
@@ -114,11 +113,6 @@ def user_index(username, user_id):
         db.session.commit()
         flash("User updated")
     return render_template('user-index.html', form=form, data=data)
-
-
-
-
-
 
 
 @app.route("/new-bidder")
