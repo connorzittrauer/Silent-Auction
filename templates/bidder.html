@@ -6,8 +6,9 @@
 {% block content %}
 <h4>Your active bids:</h4>
 <ul>
-    {% for addresses in data %}
-        <li>{{ addresses.item_id.item_name }}</li>
+    {% for datum in data %}
+        <li>Item ID: {{ datum.item_id }}, --- ${{ datum.bid_price }}</li>
+
     {% endfor %}
 </ul>
 

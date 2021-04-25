@@ -68,7 +68,10 @@ def item_page(item_id):
 
 @app.route("/bidder")
 def bidder():
-    data = Bids.query.filter_by(user_id=current_user.user_id)
+    if current_user.role == 'Bidder' or current_user.role == 'Admin':
+        data = Bids.query.filter_by(user_id=current_user.user_id)
+    else:
+        return render_template('403.html'), 403
     return render_template("bidder.html", data=data)
 
 
