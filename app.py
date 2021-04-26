@@ -9,6 +9,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from forms import LoginForm, RegistrationForm, NewAuctionItem, NewBid, UpdateUser, Logout
 from random import randint
 import datetime
+from wtforms import HiddenField
 import os
 
 app = Flask(__name__)
@@ -53,12 +54,13 @@ def items_index():
 
 @app.route('/items-index/<item_id>', methods=['GET', 'POST'])
 def item_page(item_id):
-    form = NewBid()
-    id = randint(100000, 999999)
+
+    form = NewBid(hidden_id=int(item_id))
     item = Items.query.get(int(item_id))
+
     data = Bids.query.filter_by(item_id=item_id)
     if form.validate_on_submit():
-        bid = Bids(bid_id=id, item_id=item_id, user_id=current_user.user_id, bid_price=form.bid.data)
+        bid = Bids(item_id=item_id, user_id=current_user.user_id, bid_price=form.bid.data)
         db.session.add(bid)
         db.session.commit()
         flash('Bid Received!')

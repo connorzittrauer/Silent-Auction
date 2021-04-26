@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
-from wtforms import ValidationError
+from wtforms import ValidationError, HiddenField
 from models import User, Items
 import datetime
 
@@ -44,14 +44,19 @@ def current_time():
 class NewBid(FlaskForm):
     bid = StringField("Enter a bid: ", validators=[DataRequired()])
     submit = SubmitField("Place")
+    hidden_id = HiddenField()
 
-    def validate_bid(self, field):
-        #right now this is a list, need to be just the time_created column of the current auction item
-        expiration = Items.query.with_entities(Items.time_created).all()
+    def validate_hidden_id(self, field):
 
-        #checks difference between current time and item creation time
+        data = Items.query.get(field.data)
+
+        expiration = data.time_created
+        # checks difference between current time and item creation time
         difference = (current_time() - expiration) / 60
-        if difference > 5.0:
+
+        #this provides a floating point number from the time delta equation above
+
+        if difference.total_seconds() > 5.0:
             raise ValidationError('This bid has expired!')
 
     # def validate_bid(form, field):
