@@ -31,8 +31,9 @@
     {{ form.submit }}
 </form>
 
-
-
+{% for error in form.errors %}
+    <li>{{ error }}</li>
+{% endfor %}
 
 
 {% endblock %}
