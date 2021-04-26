@@ -1,13 +1,13 @@
 from faker import Faker
 from models import db, Items, User
-
+import datetime
 
 # here is where the fake auction items are generated and added to the database
 def populate():
     fake = Faker()
     i = 0
     while i <= 10:
-        product = Items(item_name=fake.address())
+        product = Items(item_name=fake.address(), time_created=datetime.datetime.now())
         i += 1
         db.session.add(product)
     db.session.commit()

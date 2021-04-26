@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
+
 db = SQLAlchemy()
 
 #association table
@@ -15,6 +16,7 @@ class Bids(db.Model):
 class Items(db.Model):
     item_id = db.Column(db.Integer, primary_key=True)
     item_name = db.Column(db.String(64), unique=True, nullable=False)
+    time_created = db.Column(db.String(64))
     auctioneer_id = db.Column('auctioneer_id', db.Integer, db.ForeignKey('user.user_id'))
 
 #many-to-many relationship, bidders/auctioneers can have multiple items

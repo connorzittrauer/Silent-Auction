@@ -8,6 +8,7 @@ from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from forms import LoginForm, RegistrationForm, NewAuctionItem, NewBid, UpdateUser, Logout
 from random import randint
+import datetime
 import os
 
 app = Flask(__name__)
@@ -78,10 +79,12 @@ def bidder():
 @app.route("/auctioneer", methods=['GET', 'POST'])
 def auctioneer():
     form = NewAuctionItem()
+    expiration = datetime.datetime.now()
     data = Items.query.filter_by(auctioneer_id=current_user.user_id)
     if form.validate_on_submit() and current_user.role != 'Bidder':
         item = Items(item_name=form.address.data,
-                     auctioneer_id= current_user.user_id)
+                     auctioneer_id=current_user.user_id,
+                     time_created=expiration)
         db.session.add(item)
         db.session.commit()
         flash('Auctioneer Item Created.')
