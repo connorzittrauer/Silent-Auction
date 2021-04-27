@@ -73,6 +73,7 @@ def item_page(item_id):
 def bidder():
     if current_user.role != 'Auctioneer':
         data = Bids.query.filter_by(user_id=current_user.user_id)
+
     else:
         return render_template('403.html'), 403
     return render_template("bidder.html", data=data)

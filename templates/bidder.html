@@ -7,16 +7,18 @@
 <h4>Your active bids:</h4>
 <ul>
     {% for datum in data %}
-        <li>Item ID: {{ datum.item_id }}, --- ${{ datum.bid_price }}</li>
-
+        <li>Item ID: {{ datum.item_id }} --- ${{ datum.bid_price }}</li>
     {% endfor %}
 </ul>
-<h4>Won Bids:</h4>
 
-{% for datum in data %}
-    {% if datum.item_id.expired == True %}
-        <li>datum.item_name</li>
-    {% endif %}
-{% endfor %}
+<h4>Bids won:</h4>
+
+<ul>
+    {% for datum in data %}
+            {% if datum.items.expired == True %}
+                <li>{{ datum.items.item_name }}</li>
+            {% endif %}
+    {% endfor %}
+</ul>
 
 {% endblock %}

@@ -12,6 +12,7 @@ class Bids(db.Model):
         item_id = db.Column('item_id', db.Integer, db.ForeignKey('items.item_id'), nullable=False)
         user_id = db.Column('user_id', db.Integer, db.ForeignKey('user.user_id'), nullable=False)
         bid_price = db.Column('current_price', db.Integer, nullable=False)
+        items = db.relationship('Items', backref=db.backref('orders', lazy='dynamic'))
 
 class Items(db.Model):
     item_id = db.Column(db.Integer, primary_key=True)
@@ -19,6 +20,8 @@ class Items(db.Model):
     time_created = db.Column(db.DateTime)
     expired = db.Column(db.Boolean)
     auctioneer_id = db.Column('auctioneer_id', db.Integer, db.ForeignKey('user.user_id'))
+
+
 
 #many-to-many relationship, bidders/auctioneers can have multiple items
 class User(UserMixin, db.Model):
