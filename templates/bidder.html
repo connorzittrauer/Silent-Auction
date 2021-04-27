@@ -11,6 +11,12 @@
 
     {% endfor %}
 </ul>
+<h4>Won Bids:</h4>
 
+{% for datum in data %}
+    {% if datum.item_id.expired == True %}
+        <li>datum.item_name</li>
+    {% endif %}
+{% endfor %}
 
 {% endblock %}

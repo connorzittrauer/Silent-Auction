@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
 from wtforms import ValidationError, HiddenField
-from models import User, Items
+from models import User, Items, db
 import datetime
 
 
@@ -57,6 +57,9 @@ class NewBid(FlaskForm):
         #this provides a floating point number from the time delta equation above
 
         if difference.total_seconds() > 5.0:
+            data.expired = True
+            db.session.add(data)
+            db.session.commit()
             raise ValidationError('This bid has expired!')
 
     # def validate_bid(form, field):
@@ -80,6 +83,7 @@ class UpdateUser(FlaskForm):
 
     def validate_username(self, field):
         if User.query.filter_by(username=field.data).first():
+
             raise ValidationError('Username already in use.')
 
 
