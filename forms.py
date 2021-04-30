@@ -56,7 +56,7 @@ class NewBid(FlaskForm):
 
         #this provides a floating point number from the time delta equation above
 
-        if difference.total_seconds() > 5.0:
+        if difference.total_seconds() > 1.0:
             data.expired = True
             db.session.add(data)
             db.session.commit()

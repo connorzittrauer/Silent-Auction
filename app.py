@@ -54,7 +54,6 @@ def items_index():
 
 @app.route('/items-index/<item_id>', methods=['GET', 'POST'])
 def item_page(item_id):
-
     form = NewBid(hidden_id=int(item_id))
     item = Items.query.get(int(item_id))
 
@@ -93,6 +92,14 @@ def auctioneer():
         flash('Auctioneer Item Created.')
         return redirect(url_for("auctioneer"))
     return render_template("auctioneer.html", form=form, data=data)
+
+
+@app.route("/auctioneer/<item_id>", methods=['GET', 'POST'])
+def auctioneer_index(item_id):
+    id = Items.query.get(item_id)
+    data = Items.query.filter_by(auctioneer_id=current_user.user_id)
+    data2 = Bids.query.filter_by(item_id=item_id)
+    return render_template('auctioneer-index.html', data=data, data2=data2)
 
 
 @app.route("/admin", methods=['GET', 'POST'])

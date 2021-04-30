@@ -13,9 +13,8 @@
 <h4>Your listings:</h4>
 <ul>
     {% for datum in data %}
-        <li>{{ datum.item_name }}</li>
+    <li><a href="{{ url_for('auctioneer_index', item_id=datum.item_id) }}" >{{ datum.item_name }}</a></li>
     {% endfor %}
 </ul>
 
-<h4>Your Sales:</h4>
 {% endblock %}

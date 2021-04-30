@@ -4,7 +4,7 @@
 {% block heading %}{% endblock %}
 
 {% block content %}
-<h4>Your active bids:</h4>
+<h4>Your bid history:</h4>
 <ul>
     {% for datum in data %}
         <li>Item ID: {{ datum.item_id }} --- ${{ datum.bid_price }}</li>

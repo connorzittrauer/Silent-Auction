@@ -1,5 +1,6 @@
 from faker import Faker
-from models import db, Items, User
+from app import db, app
+from models import Items, User
 import datetime
 from dotenv import dotenv_values
 
@@ -15,13 +16,18 @@ def populate():
         i += 1
         db.session.add(product)
     db.session.commit()
-populate()
+
 
 def admin():
-    admin = User(role="Admin", username= config.get('USERNAME'),password= config.get('PASSWORD'))
-    bidder = User(role='Bidder', username='bidder', password='pass')
-    auctioneer = User(role="Auctioneer", username='auct', password='pass')
+    admin = User(role="Admin", username= config.get('USERNAME1'),password= config.get('PASSWORD1'))
+    bidder = User(role='Bidder', username=config.get('USERNAME2'), password=config.get('PASSWORD2'))
+    auctioneer = User(role="Auctioneer", username=config.get('USERNAME3'), password=config.get('PASSWORD3'))
     db.session.add(admin)
     db.session.add(bidder)
     db.session.add(auctioneer)
     db.session.commit()
+
+with app.app_context():
+    db.create_all()
+    admin()
+    populate()
