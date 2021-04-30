@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Auctioneer Index{% endblock %}
+{% block heading %}{% endblock %}
+{% block content %}
+
+
+
+{% for datum in data %}
+    <li><b>Item Name: </b>{{ datum.item_name }}</li>
+{% endfor %}
+
+{% for datum in data2 %}
+    {% if datum.expired == True %}
+        <li><b>Winner ID: </b>{{ datum.user_id }}</li>
+    {% endif %}
+
+{% endfor %}
+
+
+
+{% endblock %}
