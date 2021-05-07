@@ -62,11 +62,7 @@ class NewBid(FlaskForm):
             db.session.commit()
             raise ValidationError('This bid has expired!')
 
-    # def validate_bid(form, field):
-    #     bid = int(field.data)
-    #     bid_index = [0, bid]
-    #     if not bid > bid_index.index[bid - 1]:
-    #         raise ValidationError('Bid must be higher than the previous bid')
+
 
 
 class UpdateUser(FlaskForm):

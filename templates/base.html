@@ -13,10 +13,10 @@
             <li><a href="{{ url_for('admin') }}">Admin</a></li>
         {% endif %}
         <li><a href="{{ url_for('index') }}">Home</a></li>
-        {% if current_user.role == 'Admin' or current_user.role == 'Auctioneer' %}
+        {% if current_user.role == 'Auctioneer' %}
             <li><a href="{{ url_for('auctioneer') }}">Auctioneer</a></li>
         {% endif %}
-        {% if current_user.role == 'Bidder' or current_user.role == 'Admin' %}
+        {% if current_user.role == 'Bidder' %}
             <li><a href="{{ url_for('bidder') }}">Bidders</a></li>
         {% endif %}
         <li><a href="{{ url_for('items_index') }}">Homes On Auction</a></li>

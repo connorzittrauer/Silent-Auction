@@ -5,7 +5,7 @@
 {% block content %}
 
 
-<h4>Item Name: </h4>
+<h4>Auction Item: </h4>
 
 
 <p>{{ id.item_name }}</p>
@@ -20,7 +20,9 @@
     {% if id.expired == True %}
 
         <li><b>Sale Price: </b>${{ data2.bid_price }}</li>
-        <li><b>Won by: </b>{{ data2.user_id }}</li>
+        <h4><u>Winner:</u></h4>
+        <li><b>User ID: </b>#{{ data2.user_id }} </li>
+
 
         <p>This auction has <b>expired!</b></p>
 
