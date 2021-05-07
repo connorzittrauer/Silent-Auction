@@ -5,17 +5,29 @@
 {% block content %}
 
 
+<h4>Item Name: </h4>
+
+
+<p>{{ id.item_name }}</p>
+
+<h4>Bid History: </h4>
 
 {% for datum in data %}
-    <li><b>Item Name: </b>{{ datum.item_name }}</li>
+    <li>${{ datum.bid_price }}</li>
 {% endfor %}
+<br />
 
-{% for datum in data2 %}
-    {% if datum.expired == True %}
-        <li><b>Winner ID: </b>{{ datum.user_id }}</li>
-    {% endif %}
+    {% if id.expired == True %}
 
-{% endfor %}
+        <li><b>Sale Price: </b>${{ data2.bid_price }}</li>
+        <li><b>Won by: </b>{{ data2.user_id }}</li>
+
+        <p>This auction has <b>expired!</b></p>
+
+    {% else %}
+        <p>This auction is <b>ongoing</b></p>
+{% endif %}
+
 
 
 

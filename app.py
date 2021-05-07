@@ -97,9 +97,11 @@ def auctioneer():
 @app.route("/auctioneer/<item_id>", methods=['GET', 'POST'])
 def auctioneer_index(item_id):
     id = Items.query.get(item_id)
-    data = Items.query.filter_by(auctioneer_id=current_user.user_id)
-    data2 = Bids.query.filter_by(item_id=item_id)
-    return render_template('auctioneer-index.html', data=data, data2=data2)
+
+    data = Bids.query.filter_by(item_id=item_id)
+    data2 = Bids.query.filter_by(item_id=item_id).order_by(Bids.bid_price.desc()).first()
+
+    return render_template('auctioneer-index.html', data=data, id=id, data2=data2)
 
 
 @app.route("/admin", methods=['GET', 'POST'])
